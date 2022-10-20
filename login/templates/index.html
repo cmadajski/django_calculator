@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/htmx.org@1.8.2/dist/htmx.min.js" integrity="sha384-+8ISc/waZcRdXCLxVgbsLzay31nCdyZXQxnsUy++HJzJliTzxKWr0m1cIEMyUzQu" crossorigin="anonymous"></script>
   <title>Login Page</title>
 </head>
 <body style="font-family:sans-serif;">
   <center>
-  <div style="background-color:rgb(49, 49, 49);width:600px;margin:0 auto;border-radius: 10px;">
-    <h3 style="font-size:42px;color:white;padding-top:20px;margin-bottom:10px;">Login</h3>
+  <div style="background-color:rgb(49, 49, 49);width:fit-content;max-width:700px;margin:0 auto;border-radius:10px;">
     {% if messages %}
           {% for message in messages %}
               {% if message.tags == 'error' %}
@@ -20,26 +20,28 @@
               {% endif %}
           {% endfor %}
       {% endif %}
-    <form action="/check_login/" method="post">
-        <table style="padding:10px;border-radius:10px;">
-          <tr>
-            <td style="color:white;font-size:24px;">Email:</td>
-            <td><input type="text" name="email" placeholder="Enter Email Here" style="font-size:24px;margin-bottom:10px;"></td>
-          </tr>
-          <tr>
-            <td style="color:white;font-size:24px;">Password:</td>
-            <td><input type="password" name="password" placeholder="Enter Password Here" style="font-size:24px;margin-bottom:10px;"></td>
-          </tr>
-          
-          <tr>
-            <td ><input type="submit" name="submit" value="Login" style="padding:10px;font-size:24px;width:100%;background-color:rgb(0, 211, 0);border-radius:5px;border:none;"></td>
-            <td><a href="/register/" style="background-color:rgb(210,210,210);padding:10px;text-decoration:none;font-size:24px;border-radius:5px;color:black;display:block;width:fit-content;margin-left:10px;">Register New User &rarr;</a></td>
-          </tr>
-        </table>
+    <form action="/check_login/" method="post" style="padding:20px;">
+      <h3 style="font-size:42px;color:white;margin:0;">Login</h3>
+        <div id="email-container" style="display:flex;flex-direction:row;justify-content:center;align-items:center;gap:10px;margin:20px 0;font-size:24px;color:rgb(220,220,220);">
+          <label id="email-label" for="email">Email: </label>
+          <input type="text" id="email" name="email" hx-post="{% url 'check_login_email' %}" hx-trigger="load, keyup delay:1s, focus delay:1s, click delay:1s" hx-target="#email-check" hx-swap="outerhtml" style="font-size:24px;">
+          <div id="email-check">&larr;</div>
+        </div>
+        <div id="password-container" style="display:flex;flex-direction:row;justify-content:center;align-items:center;gap:10px;margin:20px 0;font-size:24px;color:rgb(220,220,220);">
+          <label id="password-label" for="password">Password: </label>
+          <input type="password" id="password" name="password" hx-post="{% url 'check_login_password' %}" hx-trigger="load, keyup delay:1s, click delay:1s, keyup delay:1s from:#email" hx-target="#password-check" hx-swap="outerhtml" style="font-size:24px;">
+          <div id="password-check">&larr;</div>
+        </div>
+        <div id="form-buttons" style="display:flex;flex-direction:row;justify-content:center;align-items:center;gap:20px;">
+          <div id="login-button-container" hx-post="{% url 'enable_login_button' %}" hx-trigger="load, keyup delay:1.1s from:#password, keyup delay:1s from:#email" hx-target="#login-button-container">
+            <input id="login-button" type="submit" title="Valid email and password are required before logging in" name="submit" value="Login &#10005;" style="display:block;padding:10px;font-size:24px;width:fit-content;background-color:red;border-radius:5px;border:none;cursor:pointer;transition:0.2s;" disabled></input>
+          </div>
+          <a href="{% url 'register' %}" title="Register as a new user" style="background-color:rgb(210,210,210);padding:10px;text-decoration:none;font-size:24px;border-radius:5px;color:black;display:block;width:fit-content;margin-left:10px;">Register &rarr;</a>
+        </div>
     </form>
   </div>
   <div>
-    <p>View the source code of this app on <a href="https://github.com/christian-madajski-euclid/django_calculator" target="_blank" style="text-decoration:none;">GitHub</a></p>
+    <p>View the source code of this app on <a href="https://github.com/cmadajski/django_calculator" target="_blank" style="text-decoration:none;">GitHub</a></p>
   </div>
   </center>
 </body>
