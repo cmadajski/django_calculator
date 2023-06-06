@@ -1,4 +1,6 @@
 # Django Calculator
-A calculator webapp built with Django.
+A calculator webapp built with Django. This was a concept project created as part of my
+Python training with Euclid Innovations internship.
 
-An instance of the app has been deployed to [Heroku](https://warm-cliffs-73943.herokuapp.com/).
+There was an instance deployed on Heroku, but unfortunately they got rid of their free tier 
+and I refuse to pay monthly for a concept application.
